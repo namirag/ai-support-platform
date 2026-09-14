@@ -2,8 +2,8 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 
 from database import Base, engine, SessionLocal
-from models import User
-from schemas import UserCreate
+from models import User, Conversation
+from schemas import UserCreate, ConversationCreate
 
 Base.metadata.create_all(bind=engine)
 
@@ -36,3 +36,18 @@ def create_user(user_data: UserCreate, db: Session = Depends(get_db)):
     db.refresh(user)
 
     return user
+
+
+@app.post("/conversations")
+def create_conversation(
+    conversation_data: ConversationCreate, db: Session = Depends(get_db)
+):
+    conversation = Conversation(
+        user_id=conversation_data.user_id, title=conversation_data.title
+    )
+
+    db.add(conversation)
+    db.commit()
+    db.refresh(conversation)
+
+    return conversation
