@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from database import Base, engine, SessionLocal
 from models import User
+from schemas import UserCreate
 
 Base.metadata.create_all(bind=engine)
 
@@ -28,8 +29,8 @@ def health():
 
 
 @app.post("/users")
-def create_user(name: str, email: str, db: Session = Depends(get_db)):
-    user = User(name=name, email=email)
+def create_user(user_data: UserCreate, db: Session = Depends(get_db)):
+    user = User(name=user_data.name, email=user_data.email)
     db.add(user)
     db.commit()
     db.refresh(user)
