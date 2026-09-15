@@ -1,0 +1,29 @@
+message_id,conversation_id,sender,content,rating,comment
+1,1,customer,How can I reset my password?,,
+2,1,customer,How can I reset my password?,,
+3,1,ai,You can reset your password through the account settings page.,5.0,The answer was helpful.
+3,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+3,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+4,1,customer,How can I reset my password?,,
+5,1,customer,How can I reset my password?,,
+6,1,customer,How can I reset my password?,,
+7,1,customer,How can I reset my password?,,
+8,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+9,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+10,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+11,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+12,1,customer,How can I reset my password?,,
+13,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+13,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+13,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+14,1,customer,How can I reset my password?,,
+15,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+16,1,customer,how to write google,,
+17,1,ai,I do not have enough information to answer.,5.0,Helpful
+18,1,customer,how to check weather ,,
+19,1,ai,I do not have enough information to answer.,5.0,Helpful
+20,1,customer,how  to change the password,,
+21,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+22,1,customer,How can I reset my password?,,
+23,1,ai,You can reset your password through the account settings page.,5.0,Helpful
+23,1,ai,You can reset your password through the account settings page.,5.0,Helpful
