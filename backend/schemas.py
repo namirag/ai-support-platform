@@ -9,3 +9,9 @@ class UserCreate(BaseModel):
 class ConversationCreate(BaseModel):
     user_id: int
     title: str | None = None
+
+
+class MessageCreate(BaseModel):
+    conversation_id: int
+    sender: str
+    content: str
