@@ -75,10 +75,33 @@ def create_message(message_data: MessageCreate, db: Session = Depends(get_db)):
 
 
 @app.post("/chat")
-def chat(chat_data: ChatRequest):
+def chat(chat_data: ChatRequest, db: Session = Depends(get_db)):
+    customer_message = Message(
+        conversation_id=chat_data.conversation_id,
+        sender="customer",
+        content=chat_data.question,
+    )
+
+    db.add(customer_message)
+    db.commit()
+    db.refresh(customer_message)
+
     answer = generate_answer(chat_data.question)
 
-    return {"question": chat_data.question, "answer": answer}
+    ai_message = Message(
+        conversation_id=chat_data.conversation_id, sender="ai", content=answer
+    )
+
+    db.add(ai_message)
+    db.commit()
+    db.refresh(ai_message)
+
+    return {
+        "question": chat_data.question,
+        "answer": answer,
+        "customer_message_id": customer_message.id,
+        "ai_message_id": ai_message.id,
+    }
 
 
 @app.post("/documents/upload")
