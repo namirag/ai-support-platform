@@ -1,9 +1,11 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 
-from database import Base, engine, SessionLocal
-from models import User, Conversation, Message
-from schemas import UserCreate, ConversationCreate, MessageCreate
+from backend.database import Base, engine, SessionLocal
+from backend.models import User, Conversation, Message
+from backend.schemas import UserCreate, ConversationCreate, MessageCreate, ChatRequest
+
+from ai.rag import generate_answer
 
 Base.metadata.create_all(bind=engine)
 
@@ -66,3 +68,10 @@ def create_message(message_data: MessageCreate, db: Session = Depends(get_db)):
     db.refresh(message)
 
     return message
+
+
+@app.post("/chat")
+def chat(chat_data: ChatRequest):
+    answer = generate_answer(chat_data.question)
+
+    return {"question": chat_data.question, "answer": answer}

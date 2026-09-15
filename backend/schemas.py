@@ -15,3 +15,8 @@ class MessageCreate(BaseModel):
     conversation_id: int
     sender: str
     content: str
+
+
+class ChatRequest(BaseModel):
+    question: str
+
