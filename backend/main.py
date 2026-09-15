@@ -140,3 +140,15 @@ async def upload_document(file: UploadFile = File(...)):
     chunks_added = add_document(document_id=document_id, text=text)
 
     return {"filename": file.filename, "chunks_added": chunks_added}
+
+
+@app.get("/conversations/{conversation_id}/messages")
+def get_conversation_messages(conversation_id: int, db: Session = Depends(get_db)):
+    messages = (
+        db.query(Message)
+        .filter(Message.conversation_id == conversation_id)
+        .order_by(Message.id)
+        .all()
+    )
+
+    return messages
