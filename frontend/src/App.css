@@ -1,0 +1,88 @@
+.app {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.chat-box {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  min-height: 300px;
+  margin-bottom: 20px;
+}
+
+.message {
+  margin: 15px 0;
+}
+
+.customer {
+  text-align: right;
+}
+
+.ai {
+  text-align: left;
+}
+
+.message-content {
+  display: inline-block;
+  padding: 12px 16px;
+  border-radius: 10px;
+  max-width: 70%;
+}
+
+.customer .message-content {
+  background: #e8f0fe;
+}
+
+.ai .message-content {
+  background: #d9f7df;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.input-area button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.analytics {
+  margin-top: 30px;
+}
+
+.analytics-cards {
+  display: flex;
+  gap: 20px;
+}
+
+.analytics-card {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  background: #f8f9fa;
+}
+
+.analytics-card h3 {
+  margin-bottom: 10px;
+}
+
+.analytics-card p {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
