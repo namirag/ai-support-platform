@@ -2,8 +2,14 @@ from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.database import Base, engine, SessionLocal
-from backend.models import User, Conversation, Message
-from backend.schemas import UserCreate, ConversationCreate, MessageCreate, ChatRequest
+from backend.models import User, Conversation, Message, Feedback
+from backend.schemas import (
+    UserCreate,
+    ConversationCreate,
+    MessageCreate,
+    ChatRequest,
+    FeedbackCreate,
+)
 
 from ai.rag import generate_answer, add_document
 
@@ -152,3 +158,18 @@ def get_conversation_messages(conversation_id: int, db: Session = Depends(get_db
     )
 
     return messages
+
+
+@app.post("/feedback")
+def create_feedback(feedback_data: FeedbackCreate, db: Session = Depends(get_db)):
+    feedback = Feedback(
+        message_id=feedback_data.message_id,
+        rating=feedback_data.rating,
+        comment=feedback_data.comment,
+    )
+
+    db.add(feedback)
+    db.commit()
+    db.refresh(feedback)
+
+    return feedback

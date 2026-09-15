@@ -20,3 +20,9 @@ class MessageCreate(BaseModel):
 class ChatRequest(BaseModel):
     conversation_id: int
     question: str
+
+
+class FeedbackCreate(BaseModel):
+    message_id: int
+    rating: int
+    comment: str | None = None
