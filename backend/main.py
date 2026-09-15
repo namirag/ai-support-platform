@@ -17,6 +17,8 @@ import os
 from pypdf import PdfReader
 from docx import Document
 
+from sqlalchemy import func
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="AI Customer Support Platform")
@@ -173,3 +175,17 @@ def create_feedback(feedback_data: FeedbackCreate, db: Session = Depends(get_db)
     db.refresh(feedback)
 
     return feedback
+
+
+@app.get("/analytics")
+def get_analytics(db: Session = Depends(get_db)):
+    total_questions = db.query(Message).filter(Message.sender == "customer").count()
+
+    average_rating = db.query(func.avg(Feedback.rating)).scalar()
+
+    return {
+        "total_questions": total_questions,
+        "average_rating": (
+            round(float(average_rating), 2) if average_rating is not None else 0
+        ),
+    }
