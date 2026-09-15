@@ -54,7 +54,7 @@ def search_documents(query: str, top_k: int = 3):
 
 
 def generate_answer(question: str):
-    relevant_chunks = search_documents(question)
+    relevant_chunks = search_documents(question, top_k=5)
 
     context = "\n\n".join(relevant_chunks)
 

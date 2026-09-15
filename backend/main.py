@@ -1,11 +1,15 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.database import Base, engine, SessionLocal
 from backend.models import User, Conversation, Message
 from backend.schemas import UserCreate, ConversationCreate, MessageCreate, ChatRequest
 
-from ai.rag import generate_answer
+from ai.rag import generate_answer, add_document
+
+import os
+from pypdf import PdfReader
+from docx import Document
 
 Base.metadata.create_all(bind=engine)
 
@@ -75,3 +79,41 @@ def chat(chat_data: ChatRequest):
     answer = generate_answer(chat_data.question)
 
     return {"question": chat_data.question, "answer": answer}
+
+
+@app.post("/documents/upload")
+async def upload_document(file: UploadFile = File(...)):
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="No file provided")
+
+    extension = os.path.splitext(file.filename)[1].lower()
+
+    if extension == ".pdf":
+        contents = await file.read()
+        with open("temp.pdf", "wb") as f:
+            f.write(contents)
+
+        reader = PdfReader("temp.pdf")
+        text = "\n".join(page.extract_text() or "" for page in reader.pages)
+
+        os.remove("temp.pdf")
+
+    elif extension == ".docx":
+        contents = await file.read()
+        with open("temp.docx", "wb") as f:
+            f.write(contents)
+
+        document = Document("temp.docx")
+        text = "\n".join(paragraph.text for paragraph in document.paragraphs)
+
+        os.remove("temp.docx")
+
+    else:
+        raise HTTPException(
+            status_code=400, detail="Only PDF and DOCX files are supported"
+        )
+
+    document_id = os.path.splitext(file.filename)[0]
+    chunks_added = add_document(document_id=document_id, text=text)
+
+    return {"filename": file.filename, "chunks_added": chunks_added}
